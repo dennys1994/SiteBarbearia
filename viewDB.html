@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar Agendamentos</title>
+</head>
+<body>
+    <h1>Agendamentos</h1>
+    <div id="agendamentos-container"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const agendamentosContainer = document.getElementById('agendamentos-container');
+
+    // Função para buscar os agendamentos
+    function buscarAgendamentos() {
+        fetch('http://localhost:3000/agendamentos')
+            .then(response => response.json())
+            .then(agendamentos => {
+                // Limpar o conteúdo anterior
+                agendamentosContainer.innerHTML = '';
+
+                // Criar elementos para cada agendamento e adicioná-los ao contêiner
+                agendamentos.forEach(agendamento => {
+                    const agendamentoDiv = document.createElement('div');
+                    agendamentoDiv.classList.add('agendamento');
+
+                    agendamentoDiv.innerHTML = `
+                        <p><strong>Nome:</strong> ${agendamento.nome}</p>
+                        <p><strong>Email:</strong> ${agendamento.email}</p>
+                        <p><strong>Telefone:</strong> ${agendamento.telefone}</p>
+                        <p><strong>Data:</strong> ${agendamento.data}</p>
+                        <p><strong>Horário:</strong> ${agendamento.horario}</p>
+                    `;
+
+                    agendamentosContainer.appendChild(agendamentoDiv);
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao buscar os agendamentos:', error);
+            });
+    }
+
+    // Chamar a função para buscar os agendamentos ao carregar a página
+    buscarAgendamentos();
+});
+
+    </script>
+</body>
+</html>
